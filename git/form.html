@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form onsubmit="saveToLocalStorage(event)">
+        <label>name</label>
+        <input type="text" name="username" id="username" required />
+        <label>email</label>
+        <input type="text" name='email' id='email' required />
+        <label> mobile</label>
+        <input type="text" name="mobile" id="mobile" />
+        <button>submit</button>
+    </form>
+    <ul id="list"></ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <script>
+        function saveToLocalStorage(event) {
+            event.preventDefault()
+
+            const name = event.target.username.value;
+            let email = event.target.email.value;
+            let mobile = event.target.mobile.value;
+            let obj = {
+                name, email, mobile
+            }// show user in the screen when refresh it lost 
+            axios.post("https://localhost:3000/user/add-user", obj)
+                .then((response) => {
+                    console.log(response)
+                    showNewUser(response.data.newUserDetail);
+                    
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+
+            //localStorage.setItem(obj.category, JSON.stringify(obj))
+            //showNewUser(obj)
+
+        }
+        // window.addEventListener("DOMContentLoaded", () => {
+        //     axios.get("https://crudcrud.com/api/295bb4a4c950475a8f8e8ab265d6781c/AppointmentData/")
+        //         .then((responce) => {
+        //             for (var i = 0; i < responce.data.length; i++) {
+        //                 showNewUser(responce.data[i])
+        //             }
+        //             console.log(responce)
+        //         })
+        //         .catch((error) => {
+        //             console.log(error)
+        //         })
+        //     // const localStorageObj = localStorage;
+        //     // const localstoragekeys = Object.keys(localStorageObj)
+
+        //     // for (var i = 0; i < localstoragekeys.length; i++) {
+        //     //     const key = localstoragekeys[i]
+        //     //     const userDetailsString = localStorageObj[key];
+        //     //     const userDetailsObj = JSON.parse(userDetailsString);
+        //     //     showNewUser(userDetailsObj)
+        //     // }
+        // })
+        // function showNewUser(user) {
+        //     const parent = document.getElementById('list')
+        //     const child = `<li id=${user._id}> name-${user.name} desc-${user.desc}
+        //         <button onclick=deleteExpence('${user._id}')> DeleteExpence </button>
+        //         <button onclick=editExpences('${user.name}','${user.desc}','${user.category}','${user._id}')>editExpences</button>
+        //         </li>`
+        //     parent.innerHTML = parent.innerHTML + child
+
+        // }
+        // async function deleteExpence(userId) {
+        //     let ax=axios.delete(`https://crudcrud.com/api/295bb4a4c950475a8f8e8ab265d6781c/AppointmentData/${userId}`)
+        //     let result=await ax
+        //     removeUserFromScreen(userId)            
+                
+        // }
+        // function editExpences(name, desc, category,userId) {
+
+        //     document.getElementById('username').value = name;
+        //     document.getElementById('desc').value = desc;
+        //     document.getElementById('category').value = category;
+        //     deleteExpence(userId)
+        // }
+
+        // function removeUserFromScreen(userId) {
+        //     const parentNode = document.getElementById('list');
+        //     const childNodeToBeDeleted = document.getElementById(userId);
+        //     console.log(childNodeToBeDeleted)
+        //     if (childNodeToBeDeleted) {
+        //         parentNode.removeChild(childNodeToBeDeleted)
+        //     }
+        // }
+    </script>
+</body>
+
+</html>
